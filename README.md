@@ -85,6 +85,7 @@ o programa deverá ser entregue o executável, que deve abrir sem erros, o fonte
 poderei solicitar alterações a fim de avaliar o entendimento do candidato referente ao que foi desenvolvido bem como avaliar como o candidato 
 Responde e recebe críticas ao seu trabalho.
 
-## Prazo: O prazo deverá ser calculado pelo candidato antes de iniciar o trabalho.
+## Prazo: 
+O prazo deverá ser calculado pelo candidato antes de iniciar o trabalho e informado.
 
 
