@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021/02/05 14:40:02.000.417,=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/02/18 11:44:52.000.819,=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2021/07/20 16:17:21.000.174,=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:16:14.000.587,=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:16:33.428,=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:18:20.913,D:\Fontes\Bshop45\bacas\DesafioDelphi\UFrmMain.dfm=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/03/18 14:18:20.913,D:\Fontes\Bshop45\bacas\DesafioDelphi\UFrmMain.pas=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:18:25.804,D:\Fontes\Bshop45\bacas\DesafioDelphi\DesafioDelphi.dproj=C:\Users\fabio.SERVERINFO\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2022/03/18 14:43:37.791,=D:\Fontes\Bshop45\bacas\DesafioDelphi\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:47:22.463,D:\Fontes\Bshop45\bacas\DesafioDelphi\UClienteDados.pas=D:\Fontes\Bshop45\bacas\DesafioDelphi\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:47:57.619,=D:\Fontes\Bshop45\bacas\DesafioDelphi\Unit1.pas</Transaction>
+    <Transaction>2022/03/18 14:50:23.151,D:\Fontes\Bshop45\bacas\DesafioDelphi\UClienteDao.pas=D:\Fontes\Bshop45\bacas\DesafioDelphi\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
