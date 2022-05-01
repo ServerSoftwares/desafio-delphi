@@ -111,6 +111,10 @@
         <DCCReference Include="UClienteDados.pas"/>
         <DCCReference Include="UClienteDao.pas"/>
         <DCCReference Include="UController.pas"/>
+        <DCCReference Include="UFrmEditarCliente.pas">
+            <Form>Form2</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -5,7 +5,8 @@ uses
   UFrmMain in 'UFrmMain.pas' {Form1},
   UClienteDados in 'UClienteDados.pas',
   UClienteDao in 'UClienteDao.pas',
-  UController in 'UController.pas';
+  UController in 'UController.pas',
+  UFrmEditarCliente in 'UFrmEditarCliente.pas' {Form2};
 
 {$R *.res}
 
@@ -15,6 +16,7 @@ begin
   Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.
+
 
 
 

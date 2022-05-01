@@ -41,14 +41,16 @@ type
   end;
 
   // Classe que representa uma lista/collection de clientes
-  TClienteList = class(TcxCustomDataSource)
+  TClienteList = class
 
     private
       FListaCliente: TList<TClienteDados>;
 
     public
-      constructor    Create(Lista: TList<TClienteDados>);
-      destructor     Destroy; override;
+      constructor Create;
+      destructor  Destroy; override;
+
+      procedure plLimpaListaCliente;
 
       property ListaCliente : TList<TClienteDados> read FListaCliente write FListaCliente;
 
@@ -87,15 +89,20 @@ end;
 { TClienteList }
 
 
-constructor TClienteList.Create(Lista: TList<TClienteDados>);
+constructor TClienteList.Create;
 begin
   inherited Create;
-  FListaCliente := Lista;
+  FListaCliente := TList<TClienteDados>.Create;
 end;
 
 destructor TClienteList.Destroy;
 begin
   inherited Destroy;
+end;
+
+procedure TClienteList.plLimpaListaCliente;
+begin
+  FListaCliente.Clear;
 end;
 
 end.

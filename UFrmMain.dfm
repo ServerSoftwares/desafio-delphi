@@ -7,15 +7,15 @@ object Form1: TForm1
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Height = -12
+  Font.Name = 'Microsoft JhengHei UI'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object StatusBar1: TStatusBar
     Left = 0
     Top = 792
@@ -341,7 +341,14 @@ object Form1: TForm1
         Top = 7
         Width = 1177
         Height = 561
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clDefault
+        Font.Height = -12
+        Font.Name = 'Microsoft JhengHei UI'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
+        LockedStateImageOptions.Text = 'Aguarde...'
         object grdClientesTableView: TcxGridTableView
           Navigator.Buttons.CustomButtons = <>
           Navigator.Buttons.First.Visible = True
@@ -362,6 +369,7 @@ object Form1: TForm1
           Navigator.Buttons.Filter.Visible = True
           FilterBox.Visible = fvNever
           ScrollbarAnnotations.CustomAnnotations = <>
+          OnCellDblClick = grdClientesTableViewCellDblClick
           DataController.Summary.DefaultGroupSummaryItems = <>
           DataController.Summary.FooterSummaryItems = <>
           DataController.Summary.SummaryGroups = <>
@@ -369,42 +377,86 @@ object Form1: TForm1
           OptionsData.Deleting = False
           OptionsData.Editing = False
           OptionsData.Inserting = False
+          OptionsView.NoDataToDisplayInfoText = 'N'#227'o h'#225' dados para exibir'
           OptionsView.GroupByBox = False
           OptionsView.HeaderFilterButtonShowMode = fbmSmartTag
           OptionsView.ShowColumnFilterButtons = sfbWhenSelected
-          object grdClientesTableViewColumn1: TcxGridColumn
-            Caption = 'ID'
+          object grdClientesTableViewColunaID: TcxGridColumn
+            Caption = 'C'#243'digo'
+            DataBinding.ValueType = 'Integer'
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 79
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
             SortIndex = 0
-            SortOrder = soDescending
-            Width = 68
+            SortOrder = soAscending
+            Width = 79
           end
-          object grdClientesTableViewColumn2: TcxGridColumn
+          object grdClientesTableViewColunaNome: TcxGridColumn
             Caption = 'Nome'
-            Width = 58
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 248
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 248
           end
-          object grdClientesTableViewColumn3: TcxGridColumn
+          object grdClientesTableViewColunaCpfCnpj: TcxGridColumn
             Caption = 'CPF/CNPJ'
-            Width = 116
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 180
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 180
           end
-          object grdClientesTableViewColumn4: TcxGridColumn
+          object grdClientesTableViewColunaTipoPessoa: TcxGridColumn
             Caption = 'Tipo de pessoa'
-            Width = 126
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 111
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 111
           end
-          object grdClientesTableViewColumn5: TcxGridColumn
+          object grdClientesTableViewColunaTelefone: TcxGridColumn
             Caption = 'Telefone'
-            Width = 129
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 138
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 138
           end
-          object grdClientesTableViewColumn6: TcxGridColumn
+          object grdClientesTableViewColunaEmail: TcxGridColumn
             Caption = 'Email'
-            Width = 54
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 178
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 178
           end
-          object grdClientesTableViewColumn7: TcxGridColumn
+          object grdClientesTableViewColunaDataCadastro: TcxGridColumn
             Caption = 'Data de cadastro'
-            Width = 172
+            DataBinding.ValueType = 'DateTime'
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 184
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 184
           end
-          object grdClientesTableViewColumn8: TcxGridColumn
+          object grdClientesTableViewColunaAtivo: TcxGridColumn
             Caption = 'Ativo'
-            Width = 53
+            DataBinding.ValueType = 'Boolean'
+            HeaderAlignmentHorz = taCenter
+            MinWidth = 57
+            Options.Focusing = False
+            Options.HorzSizing = False
+            Options.Moving = False
+            Width = 57
           end
         end
         object grdClientesLevel: TcxGridLevel
@@ -423,57 +475,57 @@ object Form1: TForm1
       ParentCtl3D = False
       TabOrder = 0
       object lbCodigo: TLabel
-        Left = 43
+        Left = 33
         Top = 11
-        Width = 33
-        Height = 13
+        Width = 43
+        Height = 15
         Caption = 'C'#243'digo'
       end
       object lbNome: TLabel
-        Left = 49
+        Left = 40
         Top = 38
-        Width = 27
-        Height = 13
+        Width = 36
+        Height = 15
         Caption = 'Nome'
         Enabled = False
       end
       object lbCpfCnpj: TLabel
-        Left = 26
-        Top = 63
-        Width = 48
-        Height = 13
+        Left = 20
+        Top = 65
+        Width = 56
+        Height = 15
         Caption = 'CPF/CNPJ'
         Enabled = False
       end
       object lbTelefone: TLabel
         Left = 272
         Top = 11
-        Width = 42
-        Height = 13
+        Width = 50
+        Height = 15
         Caption = 'Telefone'
         Enabled = False
       end
       object lbEmail: TLabel
-        Left = 290
+        Left = 291
         Top = 38
-        Width = 24
-        Height = 13
+        Width = 31
+        Height = 15
         Caption = 'Email'
         Enabled = False
       end
       object lbDataCadastro: TLabel
-        Left = 244
+        Left = 241
         Top = 65
-        Width = 70
-        Height = 13
+        Width = 81
+        Height = 15
         Caption = 'Data Cadastro'
         Enabled = False
       end
       object lbConsultaCliente: TLabel
         Left = 665
         Top = 16
-        Width = 82
-        Height = 13
+        Width = 95
+        Height = 15
         Alignment = taCenter
         Caption = 'Consultar Cliente'
       end
@@ -489,13 +541,11 @@ object Form1: TForm1
       object dtConsultaData: TDateTimePicker
         Left = 665
         Top = 35
-        Width = 134
-        Height = 21
+        Width = 145
+        Height = 23
         Date = 44680.000000000000000000
-        Format = 'dd/MM/yyyy HH:mm:ss'
         Time = 44680.000000000000000000
         Color = clInfoBk
-        Kind = dtkTime
         TabOrder = 13
         Visible = False
       end
@@ -503,7 +553,7 @@ object Form1: TForm1
         Left = 80
         Top = 35
         Width = 150
-        Height = 21
+        Height = 23
         Color = clInfoBk
         TabOrder = 2
       end
@@ -511,7 +561,7 @@ object Form1: TForm1
         Left = 80
         Top = 62
         Width = 150
-        Height = 21
+        Height = 23
         Color = clInfoBk
         TabOrder = 3
       end
@@ -519,7 +569,7 @@ object Form1: TForm1
         Left = 80
         Top = 8
         Width = 124
-        Height = 21
+        Height = 23
         Color = clInfoBk
         NumbersOnly = True
         TabOrder = 0
@@ -527,7 +577,7 @@ object Form1: TForm1
       end
       object btnCarregaCliente: TBitBtn
         Left = 206
-        Top = 7
+        Top = 8
         Width = 24
         Height = 24
         Hint = 'Carrega o Cliente pelo ID informado.'
@@ -573,15 +623,15 @@ object Form1: TForm1
         OnClick = btnCarregaClienteClick
       end
       object rgTipoDePessoa: TRadioGroup
-        Left = 487
+        Left = 493
         Top = 8
-        Width = 98
-        Height = 48
+        Width = 97
+        Height = 50
         Caption = 'Tipo de pessoa'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
-        Font.Name = 'Tahoma'
+        Font.Name = 'Microsoft JhengHei UI'
         Font.Style = []
         ItemIndex = 0
         Items.Strings = (
@@ -591,49 +641,49 @@ object Form1: TForm1
         TabOrder = 7
       end
       object edEmail: TEdit
-        Left = 318
+        Left = 326
         Top = 35
         Width = 150
-        Height = 21
+        Height = 23
         Color = clInfoBk
         TabOrder = 5
       end
       object dtDataCadastro: TDateTimePicker
-        Left = 318
+        Left = 326
         Top = 62
         Width = 150
-        Height = 21
+        Height = 23
         Date = 44680.000000000000000000
-        Format = 'dd/MM/yyyy HH:mm:ss'
+        Format = 'dd/MM/yyyy HH:mm'
         Time = 44680.000000000000000000
         Color = clInfoBk
         Kind = dtkTime
         TabOrder = 6
       end
       object cbAtivo: TCheckBox
-        Left = 495
-        Top = 64
-        Width = 98
+        Left = 501
+        Top = 63
+        Width = 89
         Height = 17
         Caption = 'Ativo'
         TabOrder = 8
       end
       object meTelefone: TMaskEdit
-        Left = 318
+        Left = 326
         Top = 8
-        Width = 150
-        Height = 21
+        Width = 146
+        Height = 23
         Color = clInfoBk
-        EditMask = '!\(99\)00000-0000;1;_'
+        EditMask = '!\(99\)99999-9999;1;_'
         MaxLength = 14
         TabOrder = 4
         Text = '(  )     -    '
       end
       object rgFiltroConsulta: TRadioGroup
-        Left = 804
+        Left = 817
         Top = 8
-        Width = 125
-        Height = 75
+        Width = 133
+        Height = 77
         Caption = 'Filtro da consulta'
         ItemIndex = 0
         Items.Strings = (
@@ -647,13 +697,13 @@ object Form1: TForm1
       object edConsultaNomeCpf: TEdit
         Left = 665
         Top = 35
-        Width = 134
-        Height = 21
+        Width = 145
+        Height = 23
         Color = clInfoBk
         TabOrder = 9
       end
       object btnConsultaCliente: TBitBtn
-        Left = 751
+        Left = 762
         Top = 10
         Width = 24
         Height = 24
@@ -700,7 +750,7 @@ object Form1: TForm1
         OnClick = btnConsultaClienteClick
       end
       object btnLimpaConsulta: TBitBtn
-        Left = 775
+        Left = 786
         Top = 10
         Width = 24
         Height = 24
@@ -758,13 +808,13 @@ object Form1: TForm1
       object lbTopForm: TLabel
         Left = 8
         Top = 6
-        Width = 186
-        Height = 19
+        Width = 188
+        Height = 20
         Caption = 'CADASTRO DE CLIENTES'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
         Font.Height = -16
-        Font.Name = 'Tahoma'
+        Font.Name = 'Microsoft JhengHei UI'
         Font.Style = []
         ParentFont = False
       end

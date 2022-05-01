@@ -31,7 +31,7 @@ uses
   cxGridDBTableView, cxGrid, Generics.Collections, dxLayoutContainer,
   cxGridCustomLayoutView, cxGridLayoutView, cxContainer, cxColorComboBox,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, dxWheelPicker,
-  dxNumericWheelPicker, dxDateTimeWheelPicker, Vcl.Mask;
+  dxNumericWheelPicker, dxDateTimeWheelPicker, Vcl.Mask, cxListView;
 
 type
   TForm1 = class(TForm)
@@ -61,14 +61,14 @@ type
     lbTopForm: TLabel;
     grdClientes: TcxGrid;
     grdClientesTableView: TcxGridTableView;
-    grdClientesTableViewColumn1: TcxGridColumn;
-    grdClientesTableViewColumn2: TcxGridColumn;
-    grdClientesTableViewColumn3: TcxGridColumn;
-    grdClientesTableViewColumn4: TcxGridColumn;
-    grdClientesTableViewColumn5: TcxGridColumn;
-    grdClientesTableViewColumn6: TcxGridColumn;
-    grdClientesTableViewColumn7: TcxGridColumn;
-    grdClientesTableViewColumn8: TcxGridColumn;
+    grdClientesTableViewColunaID: TcxGridColumn;
+    grdClientesTableViewColunaNome: TcxGridColumn;
+    grdClientesTableViewColunaCpfCnpj: TcxGridColumn;
+    grdClientesTableViewColunaTipoPessoa: TcxGridColumn;
+    grdClientesTableViewColunaTelefone: TcxGridColumn;
+    grdClientesTableViewColunaEmail: TcxGridColumn;
+    grdClientesTableViewColunaDataCadastro: TcxGridColumn;
+    grdClientesTableViewColunaAtivo: TcxGridColumn;
     grdClientesLevel: TcxGridLevel;
     rgTipoDePessoa: TRadioGroup;
     edEmail: TEdit;
@@ -98,11 +98,16 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnLimparClick(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
+    procedure btnLimpaConsultaClick(Sender: TObject);
 
     // Métodos de controle do form
+    procedure plAtualizaGridCliente;
     procedure plLimpaTela;
     procedure plHabilitaComponentes(Habilita: Boolean);
-    procedure btnLimpaConsultaClick(Sender: TObject);
+    procedure grdClientesTableViewCellDblClick(
+      Sender: TcxCustomGridTableView;
+      ACellViewInfo: TcxGridTableDataCellViewInfo; AButton: TMouseButton;
+      AShift: TShiftState; var AHandled: Boolean);
 
   public
   end;
@@ -120,16 +125,15 @@ implementation
 
 
 procedure TForm1.FormCreate(Sender: TObject);
+var
+  I: Integer;
 begin
-  // Cria o Controller
   FController := TController.Create;
-
-  // Define a lista de clientes como DataSource do grid
-  grdClientesTableView.DataController.CustomDataSource := FController.ClienteList;
-  FController.ClienteList.DataChanged;
 
   plLimpaTela;
   plHabilitaComponentes(False);
+
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
@@ -137,12 +141,22 @@ begin
   FreeAndNil(FController);
 end;
 
+procedure TForm1.grdClientesTableViewCellDblClick(Sender: TcxCustomGridTableView; ACellViewInfo: TcxGridTableDataCellViewInfo;
+                                                  AButton: TMouseButton; AShift: TShiftState; var AHandled: Boolean);
+begin
+  // Chama uma segunda tela para editar ou excluir o cliente que foi clicado no grid
+  FController.ChamaTelaEdição(grdClientesTableView.DataController.Values[grdClientesTableView.DataController.FocusedRowIndex,
+                                                                         grdClientesTableViewColunaID.Index]);
+  plHabilitaComponentes(false);
+  plAtualizaGridCliente;
+end;
+
 procedure TForm1.btnCarregaClienteClick(Sender: TObject);
 begin
 
   // Carrega cliente buscando por ID
   try
-    FController.CarregaClientePorID(StrToInt(edCodigo.Text));
+    FController.plCarregaClientePorID(StrToInt(edCodigo.Text));
 
     if  not(FController.ClienteDados.ID = 0) then
         begin
@@ -173,20 +187,22 @@ begin
   case rgFiltroConsulta.ItemIndex of
 
        // Nome e CPF/CNPJ
-       0, 1: FController.ConsultaCliente(rgFiltroConsulta.ItemIndex, edConsultaNomeCpf.Text);
+       0, 1: FController.plConsultaCliente(rgFiltroConsulta.ItemIndex, edConsultaNomeCpf.Text);
 
        // Data de cadastro
-       2: FController.ConsultaCliente(rgFiltroConsulta.ItemIndex, dtConsultaData.DateTime);
+       2: FController.plConsultaCliente(rgFiltroConsulta.ItemIndex,  dtConsultaData.Date);
 
        // Ativo
-       3: FController.ConsultaCliente(rgFiltroConsulta.ItemIndex, cbConsultaAtivo.Checked);
+       3: FController.plConsultaCliente(rgFiltroConsulta.ItemIndex, cbConsultaAtivo.Checked);
   end;
+
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.rgFiltroConsultaClick(Sender: TObject);
 begin
 
-  // Exibe ou oculta os campos de Consulta
+  // Exibe ou oculta os campos da Consulta
   case rgFiltroConsulta.ItemIndex of
 
        0, 1: begin
@@ -224,60 +240,70 @@ begin
   plHabilitaComponentes(True);
   btnExcluir.Enabled := False;
   edCodigo.Text      := '0';
+  edNome.SetFocus;
 end;
 
 procedure TForm1.btnGravarClick(Sender: TObject);
 var
-  loMsgErro : string;
+  lsMsgErro : string;
 begin
 
   // Insere ou Edita o cliente
   if  (edCodigo.Text = '0') then
        begin
-         loMsgErro := FController.flGravaCliente(edNome.Text, edCpfCnpj.Text, rgTipoDePessoa.Items[rgTipoDePessoa.ItemIndex], meTelefone.Text,
-                                                edEmail.Text, dtDataCadastro.DateTime, cbAtivo.Checked);
+         lsMsgErro := FController.flGravaCliente(edNome.Text, edCpfCnpj.Text, rgTipoDePessoa.Items[rgTipoDePessoa.ItemIndex], meTelefone.Text,
+                                                edEmail.Text, dtConsultaData.DateTime, cbAtivo.Checked);
+         FController.plCarregaListaCliente;
        end
   else
        begin
-         loMsgErro := FController.flEditaCliente(StrToInt(edCodigo.Text), edNome.Text, edCpfCnpj.Text, rgTipoDePessoa.Items[rgTipoDePessoa.ItemIndex],
+         lsMsgErro := FController.flEditaCliente(StrToInt(edCodigo.Text), edNome.Text, edCpfCnpj.Text, rgTipoDePessoa.Items[rgTipoDePessoa.ItemIndex],
                                                 meTelefone.Text, edEmail.Text, dtDataCadastro.DateTime, cbAtivo.Checked)
        end;
 
-  // Verifica se houve algum erro durante a gravação
-  if  (loMsgErro) = EmptyStr then
+  // Exibe uma mensagem se houve algum erro durante a gravação
+  if  (lsMsgErro) = EmptyStr then
        begin
          Application.MessageBox(PChar('Cliente gravado com sucesso!'), 'Gravacão concluída', MB_OK + MB_ICONINFORMATION);
          plLimpaTela;
          plHabilitaComponentes(False);
        end
-  else Application.MessageBox(PChar('Houve um erro durante a gravação do Cliente: ' + loMsgErro), 'Gravação não concluída', MB_OK + MB_ICONERROR);
+  else Application.MessageBox(PChar('Houve um erro durante a gravação do Cliente: ' + lsMsgErro), 'Gravação não concluída', MB_OK + MB_ICONERROR);
+
+
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.btnExcluirClick(Sender: TObject);
 var
-  loMsgErro : string;
+  lsMsgErro : string;
 begin
-  loMsgErro := FController.flExcluiCliente(StrToInt(edCodigo.Text));
+  lsMsgErro := FController.flExcluiCliente(StrToInt(edCodigo.Text));
 
-  // Verifica se houve algum erro durante a exclusão
-  if  (loMsgErro) = EmptyStr then
+  // Exibe uma mensagem se houve algum erro durante a exclusão
+  if  (lsMsgErro) = EmptyStr then
        begin
          Application.MessageBox('Cliente excluído com sucesso!', 'Exclusão concluída', MB_OK + MB_ICONINFORMATION);
          plLimpaTela;
          plHabilitaComponentes(False);
        end
-  else Application.MessageBox(PChar('Houve um erro durante a exclusão do Cliente: ' + loMsgErro), 'Exclusão não concluída', MB_OK + MB_ICONERROR);
+  else Application.MessageBox(PChar('Houve um erro durante a exclusão do Cliente: ' + lsMsgErro), 'Exclusão não concluída', MB_OK + MB_ICONERROR);
+
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.btnLimpaConsultaClick(Sender: TObject);
 begin
-  //a
+  FController.plCarregaListaCliente;
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.btnLimparClick(Sender: TObject);
 begin
   plLimpaTela;
   plHabilitaComponentes(false);
+  FController.plCarregaListaCliente;
+  plAtualizaGridCliente;
 end;
 
 procedure TForm1.btnSairClick(Sender: TObject);
@@ -285,19 +311,44 @@ begin
   Close;
 end;
 
+
+procedure TForm1.plAtualizaGridCliente;
+var
+  Linha: Integer;
+begin
+
+  // Carrega a grid a partir da lista
+  grdClientesTableView.DataController.SetRecordCount(FController.ClienteList.ListaCliente.Count);
+
+  for Linha := 0 to grdClientesTableView.DataController.RecordCount - 1 do
+      begin
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaID.Index]           := FController.ClienteList.ListaCliente.Items[Linha].ID;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaNome.Index]         := FController.ClienteList.ListaCliente.Items[Linha].Nome;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaCpfCnpj.Index]      := FController.ClienteList.ListaCliente.Items[Linha].CpfCpnj;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaTipoPessoa.Index]   := FController.ClienteList.ListaCliente.Items[Linha].TipoPessoa;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaTelefone.Index]     := FController.ClienteList.ListaCliente.Items[Linha].Telefone;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaEmail.Index]        := FController.ClienteList.ListaCliente.Items[Linha].Email;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaDataCadastro.Index] := FController.ClienteList.ListaCliente.Items[Linha].DataCadastro;
+        grdClientesTableView.DataController.Values[Linha, grdClientesTableViewColunaAtivo.Index]        := FController.ClienteList.ListaCliente.Items[Linha].Ativo;
+      end;
+
+end;
+
+
 procedure TForm1.plLimpaTela;
 begin
-  edCodigo.Text            := '0';
-  edNome.Text              := EmptyStr;
-  edCpfCnpj.Text           := EmptyStr;
-  meTelefone.Text          := EmptyStr;
-  edEmail.Text             := EmptyStr;
-  dtDataCadastro.DateTime  := Now;
-  rgTipoDePessoa.ItemIndex := 0;
-  cbAtivo.Checked          := False;
-  edConsultaNomeCpf.Text   := EmptyStr;
-  dtConsultaData.DateTime  := Now;
-  cbConsultaAtivo.Checked  := False;
+  edCodigo.Text              := '0';
+  edNome.Text                := EmptyStr;
+  edCpfCnpj.Text             := EmptyStr;
+  meTelefone.Text            := EmptyStr;
+  edEmail.Text               := EmptyStr;
+  dtDataCadastro.DateTime    := Now;
+  rgTipoDePessoa.ItemIndex   := 0;
+  cbAtivo.Checked            := False;
+  rgFiltroConsulta.ItemIndex := 0;
+  edConsultaNomeCpf.Text     := EmptyStr;
+  dtConsultaData.DateTime    := Now;
+  cbConsultaAtivo.Checked    := False;
 end;
 
 procedure TForm1.plHabilitaComponentes(Habilita: Boolean);
